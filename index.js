@@ -40,5 +40,53 @@ export default function imgToPdf(id, multiple = 1.8, isPdf = false, pdfName = 'p
         }
 
     })
+}
+
+export async function addPagePdf(imgData = [{}], name) {
+    let data = [];
+    // data[0] = await imgToPdf('table1_1', 1.5);
+    // data[1] = await imgToPdf('table1_3', 1.5);
+    try {
+        // 将多个图片保存
+        for (let i = 0; i < imgData.length; i++) {
+            data[i] = await imgToPdf(imgData[i].id, imgData[i].multiple);
+        }
+
+        var canvas = document.createElement("canvas"); //创建一个canvas节点
+        let width = 0, height = 0;
+        // 计算最大宽度和高度，暂时无法针对每个页面进行设置款到，否则会出现图片显示不完全
+        data.forEach(item => {
+            if (width < item.canvas.width) {
+                width = item.canvas.width
+            }
+            if (height < item.canvas.height) {
+                height = item.canvas.height
+            }
+        })
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext("2d");
+        let parameter = [];
+        var pdf = new jsPDF('l', 'px', [width, height]);
+        for (let i = 0; i < data.length; i++) {
+            let h = data.reduce((a, b, index) => {
+                if (index < i) {
+                    a += b.canvas.height;
+                }
+                return a
+            }, 0);
+
+            // 循环往pdf中插入图片
+            pdf.addImage(data[i].img, 'JPEG', 0, 0, data[i].canvas.width, data[i].canvas.height);
+
+            if (i === (data.length - 1)) {
+                pdf.save(name + '.pdf');
+            } else {
+                pdf.addPage();
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    }
 
 }
