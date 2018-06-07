@@ -22,15 +22,13 @@ export default function imgToPdf(id, multiple = 1.8, isPdf = false, pdfName = 'p
             };
             html2canvas(shareContent, opts).then((canvas) => {
                 //返回图片URL，参数：图片格式和清晰度(0-1)
-                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                var pageData = canvas.toDataURL('image/png', 1.0);
                 if (isPdf) {
-                    //返回图片URL，参数：图片格式和清晰度(0-1)
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
                     //方向默认横向，尺寸ponits, 按照图片大小进行输出
                     var pdf = new jsPDF('l', 'px', [canvas.width, canvas.height]);
                     //需要dataUrl格式
-                    pdf.addImage(pageData, 'JPEG', 0, 0, canvas.width, canvas.height);
+                    pdf.addImage(pageData, 'PNG', 0, 0, canvas.width, canvas.height);
                     pdf.save(`${pdfName}.pdf`);
                 }
                 res({ img: pageData, canvas });
@@ -77,7 +75,7 @@ export async function addPagePdf(imgData = [{}], name) {
             }, 0);
 
             // 循环往pdf中插入图片
-            pdf.addImage(data[i].img, 'JPEG', 0, 0, data[i].canvas.width, data[i].canvas.height);
+            pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].canvas.width, data[i].canvas.height);
 
             if (i === (data.length - 1)) {
                 pdf.save(name + '.pdf');
