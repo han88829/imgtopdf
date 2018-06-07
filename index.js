@@ -42,8 +42,7 @@ export default function imgToPdf(id, multiple = 1.8, isPdf = false, pdfName = 'p
 
 export async function addPagePdf(imgData = [{}], name) {
     let data = [];
-    // data[0] = await imgToPdf('table1_1', 1.5);
-    // data[1] = await imgToPdf('table1_3', 1.5);
+    
     try {
         // 将多个图片保存
         for (let i = 0; i < imgData.length; i++) {
@@ -67,12 +66,12 @@ export async function addPagePdf(imgData = [{}], name) {
         let parameter = [];
         var pdf = new jsPDF('l', 'px', [width, height]);
         for (let i = 0; i < data.length; i++) {
-            let h = data.reduce((a, b, index) => {
-                if (index < i) {
-                    a += b.canvas.height;
-                }
-                return a
-            }, 0);
+            // let h = data.reduce((a, b, index) => {
+            //     if (index < i) {
+            //         a += b.canvas.height;
+            //     }
+            //     return a
+            // }, 0);
 
             // 循环往pdf中插入图片
             pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].canvas.width, data[i].canvas.height);
