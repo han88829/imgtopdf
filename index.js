@@ -84,31 +84,35 @@ export async function addPagePdf(imgData = [{}], name) {
 
 // 传入图片导出
 export async function addImgToPdf(data = [{}], name = "pdf") {
-    try {
-        let width = 0, height = 0;
+    return new Promise((res, rej) => {
+        try {
+            let width = 0, height = 0;
 
-        // 计算最大宽度和高度，暂时无法针对每个页面进行设置款到，否则会出现图片显示不完全
-        data.forEach(item => {
-            if (width < item.width) {
-                width = item.width
-            }
-            if (height < item.height) {
-                height = item.height
-            }
-        })
-        var pdf = new jsPDF('l', 'px', [width, height]);
-        for (let i = 0; i < data.length; i++) {
+            // 计算最大宽度和高度，暂时无法针对每个页面进行设置款到，否则会出现图片显示不完全
+            data.forEach(item => {
+                if (width < item.width) {
+                    width = item.width
+                }
+                if (height < item.height) {
+                    height = item.height
+                }
+            })
+            var pdf = new jsPDF('l', 'px', [width, height]);
+            for (let i = 0; i < data.length; i++) {
 
-            // 循环往pdf中插入图片
-            pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].width, data[i].height);
+                // 循环往pdf中插入图片
+                pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].width, data[i].height);
 
-            if (i === (data.length - 1)) {
-                pdf.save(name + '.pdf');
-            } else {
-                pdf.addPage();
+                if (i === (data.length - 1)) {
+                    pdf.save(name + '.pdf');
+                    res({ status: 1, msg: "导出成功" })
+                } else {
+                    pdf.addPage();
+                }
             }
+        } catch (error) {
+            console.error(error);
+            rej(error);
         }
-    } catch (error) {
-        console.error(error);
-    }
+    })
 }
