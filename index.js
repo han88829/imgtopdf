@@ -42,7 +42,7 @@ export default function imgToPdf(id, multiple = 1.8, isPdf = false, pdfName = 'p
 
 export async function addPagePdf(imgData = [{}], name) {
     let data = [];
-    
+
     try {
         // 将多个图片保存
         for (let i = 0; i < imgData.length; i++) {
@@ -66,12 +66,6 @@ export async function addPagePdf(imgData = [{}], name) {
         let parameter = [];
         var pdf = new jsPDF('l', 'px', [width, height]);
         for (let i = 0; i < data.length; i++) {
-            // let h = data.reduce((a, b, index) => {
-            //     if (index < i) {
-            //         a += b.canvas.height;
-            //     }
-            //     return a
-            // }, 0);
 
             // 循环往pdf中插入图片
             pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].canvas.width, data[i].canvas.height);
@@ -86,4 +80,35 @@ export async function addPagePdf(imgData = [{}], name) {
         console.error(error);
     }
 
+}
+
+// 传入图片导出
+export async function addImgToPdf(data = [{}], name = "pdf") {
+    try {
+        let width = 0, height = 0;
+
+        // 计算最大宽度和高度，暂时无法针对每个页面进行设置款到，否则会出现图片显示不完全
+        data.forEach(item => {
+            if (width < item.width) {
+                width = item.width
+            }
+            if (height < item.height) {
+                height = item.height
+            }
+        })
+        var pdf = new jsPDF('l', 'px', [width, height]);
+        for (let i = 0; i < data.length; i++) {
+
+            // 循环往pdf中插入图片
+            pdf.addImage(data[i].img, 'PNG', 0, 0, data[i].width, data[i].height);
+
+            if (i === (data.length - 1)) {
+                pdf.save(name + '.pdf');
+            } else {
+                pdf.addPage();
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    }
 }
