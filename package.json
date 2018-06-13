@@ -1,6 +1,6 @@
 {
   "name": "imgtopdf",
-  "version": "1.5.6",
+  "version": "1.6.0",
   "description": "han",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "han",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.0"
   }
