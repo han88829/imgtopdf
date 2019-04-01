@@ -37,4 +37,6 @@
       
       //分页按照穿进来的数组长度决定，导出的pdf每一页的宽度高度暂时未做到适应当前页图片大小，待调整
 
+
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
   
