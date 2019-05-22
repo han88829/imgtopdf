@@ -1,6 +1,6 @@
 **安装**
 
-    npm install imgtopdf ---save
+    npm install imgtopdf --save
     
     yarn add imgtopdf
 
