@@ -13,24 +13,19 @@ module.exports = {
 
         return new Promise(function (res, rej) {
             try {
-                var shareContent = document.getElementById(id); //需要截图的包裹的（原生的）DOM 对象
-                var width = shareContent.offsetWidth; //获取dom 宽度
-                var height = shareContent.offsetHeight; //获取dom 高度
-                var canvas = document.createElement("canvas"); //创建一个canvas节点
-                var scale = multiple; //定义任意放大倍数 支持小数
-                canvas.width = width * scale; //定义canvas 宽度 * 缩放
-                canvas.height = height * scale; //定义canvas高度 *缩放
-                canvas.getContext("2d").scale(scale, scale); //获取context,设置scale 
-                var opts = {
-                    scale: scale, // 添加的scale 参数
-                    canvas: canvas, //自定义 canvas
-                    logging: true, //日志开关
-                    width: width, //dom 原始宽度
-                    height: height //dom 原始高度
-                };
-                html2canvas(shareContent, opts).then(function (canvas) {
+                const e = document.getElementById(id);
+                const e_width = e.offsetWidth;
+                const e_height = e.offsetHeight;
+                const e_x_offset = window.scrollX + e.getBoundingClientRect().left;
+                const e_y_offset = window.scrollY + e.getBoundingClientRect().top;
+                html2canvas(e, {
+                    width: e_width,
+                    height: e_height,
+                    x: e_x_offset,
+                    y: e_y_offset,
+                }).then(function (canvas) {
                     //返回图片URL，参数：图片格式和清晰度(0-1)
-                    var pageData = canvas.toDataURL('image/png', 1.0);
+                    var pageData = canvas.toDataURL("'image/png'");
                     if (isPdf) {
 
                         //方向默认横向，尺寸ponits, 按照图片大小进行输出
