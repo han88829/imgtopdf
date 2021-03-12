@@ -11,6 +11,6 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "html2canvas": "^1.0.0-rc.7",
-    "jspdf": "^1.4.0"
+    "jspdf": "^2.3.1"
   }
 }
